@@ -109,7 +109,7 @@ function Restaurant(props) {
   const [modalOpen, setModalOpen ] = useState(false);
 
   const [rating, setRating] = useState(5);
-  const [waitingNo] = useState(0);
+  const [waitingNo, setWaintingNo] = useState(0);
   const [comment, setComment] = useState("");
   const id = props.match.params.id;
 
@@ -121,6 +121,7 @@ function Restaurant(props) {
       const restaurant = await FriendlyEatsData.getRestaurant(id);
       if (restaurant && restaurant.exists) {
         setRestaurant(restaurant.data());
+        setWaintingNo(restaurant.data().waitingNo);
 
         const data =  await FriendlyEatsData.getRating(id);
         const detacher = data.onSnapshot((snapshot) => {
@@ -193,6 +194,8 @@ function Restaurant(props) {
     toggle();
     if (!ret) {
       errorToggle("restaurant.addWaiting");
+    } else {
+      setWaintingNo(waitingNo + 1)
     }
   };
   return <React.Fragment>
@@ -205,7 +208,7 @@ function Restaurant(props) {
           <h2 style={{margin: "5px"}}>{restaurant.name}</h2>
           <div>{renderRating(restaurant.avgRating)}</div>
           {restaurant.city}／{restaurant.category}<br/>
-          順番待ち：{restaurant.waitingNo}組<br/>
+          順番待ち：{waitingNo}組<br/>
           <Icon className={classes.iconHover} onClick={toggle}>
             add_circle
           </Icon>
