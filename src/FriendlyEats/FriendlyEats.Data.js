@@ -86,12 +86,10 @@ export const addWaiting = (restaurantID, waiting) => {
   return firebase.firestore().runTransaction(function(transaction) {
     return transaction.get(document).then(function(doc) {
       const data = doc.data();
-      const newWaitingNo = data.waitingNo + 1;
-
+      
       transaction.update(document, {
-        waitingNo: newWaitingNo
+        waitingNo: waiting.newWaitingNo
       });
-      waiting.waitingNo = newWaitingNo;      
       return transaction.set(newWaitingDocument, waiting);
     });
   });

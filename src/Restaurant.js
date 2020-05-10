@@ -185,8 +185,9 @@ function Restaurant(props) {
     }
   };
   const saveWaiting = async () => {
+    const newWaitingNo = waitingNo + 1;
     const ret = await FriendlyEatsData.addWaiting(id, {
-      waitingNo,
+      newWaitingNo,
       userName: 'Anonymous (Web)',
       timestamp: new Date(),
       userId: firebase.auth().currentUser.uid
@@ -195,7 +196,7 @@ function Restaurant(props) {
     if (!ret) {
       errorToggle("restaurant.addWaiting");
     } else {
-      setWaintingNo(waitingNo + 1)
+      setWaintingNo(newWaitingNo)
     }
   };
   return <React.Fragment>
